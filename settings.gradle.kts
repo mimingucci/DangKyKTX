@@ -19,5 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "QuanLyKTX"
+rootProject.name = "UDTTDD_N11"
 include(":app")
+ 
