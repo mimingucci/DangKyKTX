@@ -15,7 +15,7 @@
         android:text="ĐĂNG KÝ PHÒNG KÝ TÚC XÁ"
         android:textColor="#472121"
         android:textSize="18dp"
-        />
+        android:background="@color/blue"/>
 
     <TableLayout
         android:layout_width="match_parent"
