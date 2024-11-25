@@ -1,6 +1,7 @@
 package com.example.quanlyktx.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -126,5 +127,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("DROP TABLE IF EXISTS " + "session");
         onCreate(db);
+    }
+
+    public int countPeopleByRoomNumberAndArea(String roomNumber, String area) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selection = COLUMN_ROOMNUMBER + " = ? AND " + COLUMN_AREA + " = ?";
+        String[] selectionArgs = {roomNumber, area};
+        Cursor cursor = db.query(RENTLIST_TABLE_NAME, null, selection, selectionArgs, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
     }
 }
