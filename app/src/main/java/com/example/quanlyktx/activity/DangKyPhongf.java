@@ -1,5 +1,6 @@
 package com.example.quanlyktx.activity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -79,7 +80,9 @@ public class DangKyPhongf extends AppCompatActivity {
 
             }
             // Nếu phòng chưa đầy, chuyển sang activity TaoPhieuDangKy
-
+            Intent intent = new Intent(DangKyPhongf.this, TaoPhieuDangKy.class);
+            intent.putExtra("selectedItem", selectedItem);
+            startActivity(intent);
         });
     }
 

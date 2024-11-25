@@ -1,9 +1,13 @@
 package com.example.quanlyktx.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import com.example.quanlyktx.entity.Request;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -129,6 +133,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public Cursor getRentByUsername(String username) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.query(RENTLIST_TABLE_NAME, null, COLUMN_USERNAME + " = ?", new String[]{username}, null, null, null);
+    }
+
+    public Cursor getProfileInfo(String username) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.query(PROFILE_TABLE_NAME, null, COLUMN_USERNAME + " = ?", new String[]{username}, null, null, null);
+    }
+
     public int countPeopleByRoomNumberAndArea(String roomNumber, String area) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selection = COLUMN_ROOMNUMBER + " = ? AND " + COLUMN_AREA + " = ?";
@@ -137,5 +151,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int count = cursor.getCount();
         cursor.close();
         return count;
+    }
+
+    // Các khai báo và phương thức khác của lớp DatabaseHelper
+    public void addARegisterRequest(Request request) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USERNAME, request.getUsername());
+        values.put(COLUMN_ROOMNUMBER, request.getRoomnumber());
+        values.put(COLUMN_AREA, request.getArea());
+        values.put(COLUMN_KYHOC, request.getKyhoc());
+        values.put(COLUMN_NAMHOC, request.getNamhoc());
+        values.put(COLUMN_REQUESTSTATUS, request.getRequeststatus());
+        values.put(COLUMN_REQUESTTYPE, request.getRequesttype()); // Loại phiếu đăng ký
+
+        // Chèn một dòng mới vào bảng Requests
+        long result = db.insert(REQUEST_TABLE_NAME, null, values);
+        if (result == -1) {
+            // Nếu chèn không thành công, in ra log hoặc thực hiện xử lý khác
+            Log.e("DatabaseHelper", "Failed to insert request");
+        } else {
+            // Nếu chèn thành công, in ra log hoặc thực hiện xử lý khác
+            Log.d("DatabaseHelper", "Request inserted successfully");
+        }
+
+        db.close();
+    }
+
+    public Cursor getSession(){
+        SQLiteDatabase db = getReadableDatabase();
+        return db.query("session", null, null, null, null, null, null);
     }
 }
