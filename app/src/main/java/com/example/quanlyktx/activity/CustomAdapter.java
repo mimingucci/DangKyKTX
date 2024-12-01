@@ -1,4 +1,5 @@
-package com.example.uddd_nhom11.activity;
+
+package com.example.quanlyktx.activity;
 
 import android.content.Context;
 import android.view.LayoutInflater;
